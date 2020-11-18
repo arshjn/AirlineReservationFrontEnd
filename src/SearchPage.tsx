@@ -2,8 +2,19 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 //import Dropdown from 'react-bootstrap/Dropdown';
+import SearchTable from './SearchTable';
 
-class SearchPage extends React.Component<{}, {}>{
+class SearchPage extends React.Component< {} , {}>{
+/*
+    constructor(props: Flight) {
+        super(props);
+        this.state = {
+          flights: []
+        };
+      }
+      */
+
+    list1 = [];
     render() {
         return (
             <div>
@@ -34,8 +45,11 @@ class SearchPage extends React.Component<{}, {}>{
 
                             </div>
                         </Form.Group>
-                        <Button type="submit" className="ButtonSpacing"> Submit </Button>
+                        <Button type="submit" className="ButtonSpacing"> Search </Button>
                     </Form>
+                </div>
+                <div>
+                    <SearchTable flights = {list1}/>
                 </div>
             </div>
         )
@@ -75,8 +89,16 @@ class SearchPage extends React.Component<{}, {}>{
                 break;
         }
 
-        var string = "https://localhost:44387/api/Flight?s=" + s + "&d=" + d;
-
+        var api = "https://localhost:44387/api/Flight?s=" + s + "&d=" + d;
+        fetch(api)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              list1: result
+            });
+          }
+        );
     }
 }
 
