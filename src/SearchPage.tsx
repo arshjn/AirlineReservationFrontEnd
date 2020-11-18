@@ -3,16 +3,26 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 //import Dropdown from 'react-bootstrap/Dropdown';
 import SearchTable from './SearchTable';
+import {Flight} from './SearchTable';
 
-class SearchPage extends React.Component< {} , {}>{
-/*
-    constructor(props: Flight) {
-        super(props);
+interface SearchState {
+    flights: Array<Flight>
+}
+const flight1: Flight = {
+    FlightId: 1,
+    source: "source",
+    destination: "destination",
+    departure: "date1",
+    arrival: "data2"
+}
+class SearchPage extends React.Component< {} , SearchState>{
+
+    constructor(state: SearchState) {
+        super(state);
         this.state = {
-          flights: []
+          flights: [flight1]
         };
-      }
-      */
+    }
 
     list1 = [];
     render() {
@@ -49,7 +59,7 @@ class SearchPage extends React.Component< {} , {}>{
                     </Form>
                 </div>
                 <div>
-                    <SearchTable flights = {list1}/>
+                    <SearchTable listOfFlights = {this.state.flights} />
                 </div>
             </div>
         )
@@ -90,15 +100,17 @@ class SearchPage extends React.Component< {} , {}>{
         }
 
         var api = "https://localhost:44387/api/Flight?s=" + s + "&d=" + d;
+
         fetch(api)
         .then(res => res.json())
         .then(
           (result) => {
             this.setState({
-              list1: result
+              flights: result
             });
           }
         );
+        
     }
 }
 
