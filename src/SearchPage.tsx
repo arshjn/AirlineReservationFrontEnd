@@ -4,17 +4,16 @@ import Button from 'react-bootstrap/Button';
 //import Dropdown from 'react-bootstrap/Dropdown';
 import SearchTable from './SearchTable';
 
-class SearchPage extends React.Component< {} , {}>{
-/*
-    constructor(props: Flight) {
-        super(props);
+class SearchPage extends React.Component< any , any>{
+
+    constructor(any: any) {
+        super(any);
         this.state = {
-          flights: []
+          list1: []
         };
       }
-      */
-
-    list1 = [];
+    
+    //list1 = [];
     render() {
         return (
             <div>
@@ -49,7 +48,7 @@ class SearchPage extends React.Component< {} , {}>{
                     </Form>
                 </div>
                 <div>
-                    <SearchTable flights = {list1}/>
+                    <SearchTable flights = {this.state.list1}/>
                 </div>
             </div>
         )

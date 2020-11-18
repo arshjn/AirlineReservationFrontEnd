@@ -12,7 +12,7 @@ interface flights {
     Flights: Flight[];
 }
 
-class SearchTable extends React.Component < flights ,{}>{
+class SearchTable extends React.Component < any , any>{
     render(){
         return (
             <div>
