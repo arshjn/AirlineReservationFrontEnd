@@ -2,11 +2,11 @@ import React from 'react';
 import SearchPage from './SearchPage';
 
 export interface Flight {
-    FlightId: number,
-    source: string,
-    destination: string,
-    departure: string,
-    arrival: string
+    FlightID?: number,
+    SourceCode?: string,
+    DestinationCode?: string,
+    departure?: Date,
+    arrival?: Date
 }
 interface flights {
     listOfFlights: Array<Flight>;
@@ -34,13 +34,13 @@ class SearchTable extends React.Component<flights, {}>{
             </div>
         )
     }
-    private createRows(){
-        return(
+    private createRows() {
+        return (
             this.props.listOfFlights.map((flight) =>
                 <tr>
-                    <td>{flight.FlightId}</td>
-                    <td>{flight.source}</td>
-                    <td>{flight.destination}</td>
+                    <td>{flight.FlightID}</td>
+                    <td>{flight.SourceCode}</td>
+                    <td>{flight.DestinationCode}</td>
                     <td>{flight.departure}</td>
                     <td>{flight.arrival}</td>
                 </tr>
