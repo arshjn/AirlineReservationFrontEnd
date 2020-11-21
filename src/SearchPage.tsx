@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 //import Dropdown from 'react-bootstrap/Dropdown';
 import SearchTable from './SearchTable';
 import { Flight } from './SearchTable';
+import { Col } from 'react-bootstrap';
 
 interface SearchState {
     flights: Array<Flight>
@@ -35,24 +36,30 @@ class SearchPage extends React.Component<{}, SearchState>{
                     <Form onSubmit={e => this.handleSubmit(e)}>
                         <Form.Group>
                             <div>
-                                <Form.Group controlId="exampleForm.ControlSelect1">
-                                    <Form.Label>Source</Form.Label>
-                                    <Form.Control id="source" as="select">
-                                        <option>Fort Lauderdale</option>
-                                        <option>Dallas</option>
-                                        <option>New York City</option>
-                                        <option>London</option>
-                                    </Form.Control>
-                                </Form.Group>
-                                <Form.Group controlId="exampleForm.ControlSelect1">
-                                    <Form.Label>Destination</Form.Label>
-                                    <Form.Control id="destination" as="select">
-                                        <option>New York City</option>
-                                        <option>Fort Lauderdale</option>
-                                        <option>Dallas</option>
-                                        <option>London</option>
-                                    </Form.Control>
-                                </Form.Group>
+                                <Form.Row>
+                                    <Col>
+                                    <Form.Group controlId="exampleForm.ControlSelect1">
+                                        <Form.Label>Source</Form.Label>
+                                        <Form.Control id="source" as="select">
+                                            <option>Fort Lauderdale</option>
+                                            <option>Dallas</option>
+                                            <option>New York City</option>
+                                            <option>London</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    </Col>
+                                    <Col>
+                                    <Form.Group controlId="exampleForm.ControlSelect1">
+                                        <Form.Label>Destination</Form.Label>
+                                        <Form.Control id="destination" as="select">
+                                            <option>New York City</option>
+                                            <option>Fort Lauderdale</option>
+                                            <option>Dallas</option>
+                                            <option>London</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    </Col>
+                                </Form.Row>
                             </div>
                         </Form.Group>
                         <Button type="submit" className="ButtonSpacing"> Search </Button>
@@ -111,7 +118,7 @@ class SearchPage extends React.Component<{}, SearchState>{
                     console.log("result[0].departure: " + result[0].departure)
                     console.log("result[0].arrival: " + result[0].arrival)
                     console.log(this)
-                   
+
                     this.setState({
                         flights: result
                     });
