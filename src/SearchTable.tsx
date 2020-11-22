@@ -13,8 +13,43 @@ export interface Flight {
 interface flights {
     listOfFlights: Array<Flight>;
 }
+interface Prices {
+    Eprice: number,
+    Bprice: number,
+    Fprice: number
+}
+class SearchTable extends React.Component<flights, Prices>{
+    //output: number = 0;
+    constructor(props: flights, state: Prices) {
+        super(props, state);
+        this.state = {
+            Eprice: 0,
+            Bprice: 0,
+            Fprice: 0
+        };
 
-class SearchTable extends React.Component<flights, {}>{
+    }
+
+    componentDidMount() {
+        if (this.props.listOfFlights.length > 0) {
+            var flight = this.props.listOfFlights[0];
+            this.getFare("E", flight.SourceCode, flight.DestinationCode)
+            this.getFare("B", flight.SourceCode, flight.DestinationCode)
+            this.getFare("F", flight.SourceCode, flight.DestinationCode)
+        }
+    }
+
+    componentDidUpdate(prevProps: flights) {
+        // If the module changed, update from the API
+        if (this.props.listOfFlights.length > 0 && prevProps.listOfFlights.length > 0) {
+            if (prevProps.listOfFlights[0].FlightID !== this.props.listOfFlights[0].FlightID) {
+                var flight = this.props.listOfFlights[0];
+                this.getFare("E", flight.SourceCode, flight.DestinationCode)
+                this.getFare("B", flight.SourceCode, flight.DestinationCode)
+                this.getFare("F", flight.SourceCode, flight.DestinationCode)
+            }
+        }
+    }
     render() {
         return (
             <div>
@@ -31,6 +66,7 @@ class SearchTable extends React.Component<flights, {}>{
                         </tr>
                     </thead>
                     <tbody>
+                        {console.log("Creating rows")}
                         {this.createRows()}
                     </tbody>
                 </Table>
@@ -47,7 +83,7 @@ class SearchTable extends React.Component<flights, {}>{
                     <td>{flight.departure}</td>
                     <td>{flight.arrival}</td>
                     <td>
-                        <OverlayTrigger trigger="click" placement="bottom" overlay={this.popover(flight.FlightID)}>
+                        <OverlayTrigger trigger="click" placement="bottom" overlay={this.popover()}>
                             <Button variant="light" id={Number(flight.FlightID).toString()} >Reserve this Flight</Button>
                         </OverlayTrigger>
                     </td>
@@ -56,19 +92,57 @@ class SearchTable extends React.Component<flights, {}>{
         )
     }
 
-    private popover(ID: number) {
+    private popover() {
         return (
             <Popover id="popover-basic">
                 <Popover.Title as="h3">Let's goooo</Popover.Title>
                 <Popover.Content>
-        <Button id={"E" + Number(ID).toString()} variant="dark">Economy {this.getFare()}</Button>
-                    <Button id={"B" + Number(ID).toString()} variant="dark">Business</Button>
-                    <Button id={"F" + Number(ID).toString()} variant="dark">First</Button>
+                    <Button variant="dark">Economy ${this.state.Eprice}</Button>
+                    <Button variant="dark">Business ${this.state.Bprice}</Button>
+                    <Button variant="dark">First ${this.state.Fprice}</Button>
                 </Popover.Content>
             </Popover>
-        )
+        );
     }
 
-    
+    private getFare(Class: string, S: string, D: string) {
+        var api = "https://localhost:44387/api/Route?source=" + S + "&destination=" + D + "&Class=" + Class;
+        console.log("getFare called with class = " + Class);
+        switch (Class) {
+            case "E":
+                fetch(api)
+                    .then(res => res.json())
+                    .then((result) => {
+                        this.setState({
+                            Eprice: result
+                        }
+                        )
+                    });
+                break;
+            case "B":
+                fetch(api)
+                    .then(res => res.json())
+                    .then((result) => {
+                        this.setState({
+                            Bprice: result
+                        }
+                        )
+                    });
+                break;
+            case "F":
+                fetch(api)
+                    .then(res => res.json())
+                    .then((result) => {
+                        this.setState({
+                            Fprice: result
+                        }
+                        )
+                    });
+                break;
+            default:
+                break;
+        }
+    }
+
 }
 export default SearchTable;

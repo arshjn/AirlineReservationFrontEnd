@@ -38,7 +38,7 @@ class SearchPage extends React.Component<{}, SearchState>{
                             <div>
                                 <Form.Row>
                                     <Col>
-                                    <Form.Group controlId="exampleForm.ControlSelect1">
+                                    <Form.Group>
                                         <Form.Label>Source</Form.Label>
                                         <Form.Control id="source" as="select">
                                             <option>Fort Lauderdale</option>
@@ -49,7 +49,7 @@ class SearchPage extends React.Component<{}, SearchState>{
                                     </Form.Group>
                                     </Col>
                                     <Col>
-                                    <Form.Group controlId="exampleForm.ControlSelect1">
+                                    <Form.Group>
                                         <Form.Label>Destination</Form.Label>
                                         <Form.Control id="destination" as="select">
                                             <option>New York City</option>
@@ -107,24 +107,16 @@ class SearchPage extends React.Component<{}, SearchState>{
         }
 
         var api = "https://localhost:44387/api/Flight?s=" + s + "&d=" + d;
-        console.log("API: " + api);
         fetch(api)
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log("result[0].FlightId: " + result[0].FlightID)
-                    console.log("result[0].Source: " + result[0].SourceCode)
-                    console.log("result[0].Dest: " + result[0].DestinationCode)
-                    console.log("result[0].departure: " + result[0].departure)
-                    console.log("result[0].arrival: " + result[0].arrival)
-                    console.log(this)
-
                     this.setState({
                         flights: result
                     });
 
                     //this.Flights = result;
-                    console.log("Done");
+                    //console.log("Done");
                     //console.log(this.state.flights);
                 }
             );
