@@ -32,6 +32,7 @@ class SearchTable extends React.Component<flights, Prices>{
 
     componentDidMount() {
         if (this.props.listOfFlights.length > 0) {
+            console.log("ComponentDidMount called");
             var flight = this.props.listOfFlights[0];
             this.getFare("E", flight.SourceCode, flight.DestinationCode)
             this.getFare("B", flight.SourceCode, flight.DestinationCode)
@@ -41,7 +42,7 @@ class SearchTable extends React.Component<flights, Prices>{
 
     componentDidUpdate(prevProps: flights) {
         // If the module changed, update from the API
-        if (this.props.listOfFlights.length > 0 && prevProps.listOfFlights.length > 0) {
+        if (this.props.listOfFlights.length > 0 || prevProps.listOfFlights.length > 0) {
             if (prevProps.listOfFlights[0].FlightID !== this.props.listOfFlights[0].FlightID) {
                 var flight = this.props.listOfFlights[0];
                 this.getFare("E", flight.SourceCode, flight.DestinationCode)
@@ -66,7 +67,6 @@ class SearchTable extends React.Component<flights, Prices>{
                         </tr>
                     </thead>
                     <tbody>
-                        {console.log("Creating rows")}
                         {this.createRows()}
                     </tbody>
                 </Table>
