@@ -8,7 +8,7 @@ class HomePage extends React.Component<{}, {}>{
         return (
             <div>
                 <h1>Welcome to 3200 Airlines</h1>
-                <Button variant = "light" className="ButtonSpacing"> Create New Reservation </Button>
+                <Button variant = "light" onClick = {() => {window.location.href = "/search"}} className="ButtonSpacing"> Create New Reservation </Button>
                 <Button variant = "light" className="ButtonSpacing"> Look up existing reservation </Button>
 
             </div>

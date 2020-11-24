@@ -5,7 +5,7 @@ import ReservePage from './ReservePage';
 //import SearchPage from './SearchPage';
 
 export interface Flight {
-    FlightID: number,
+    FlightID?: number,
     SourceCode: string,
     DestinationCode: string,
     departure?: Date,
@@ -19,9 +19,11 @@ interface Prices {
     Bprice: number,
     Fprice: number
 }
+var flight1: Flight = { FlightID: 0, SourceCode: "XXX", DestinationCode: "YYY", departure: undefined, arrival: undefined };
+var Class1: string = "E";
+var displayPrice = 0;
 class SearchTable extends React.Component<flights, Prices>{
     //output: number = 0;
-    //flight: Flight = {FlightID = 0, SourceCode = "XXX", DestinationCode = "YYY", departure = new Date(), arrival = new Date()};
     constructor(props: flights, state: Prices) {
         super(props, state);
         this.state = {
@@ -29,7 +31,9 @@ class SearchTable extends React.Component<flights, Prices>{
             Bprice: 0,
             Fprice: 0,
         };
+        flight1 = { FlightID: undefined, SourceCode: "XXX", DestinationCode: "NYC", departure: undefined, arrival: undefined };
     }
+
 
     componentDidMount() {
         if (this.props.listOfFlights.length > 0) {
@@ -51,12 +55,12 @@ class SearchTable extends React.Component<flights, Prices>{
                 this.getFare("F", flight.SourceCode, flight.DestinationCode)
             }
         }*/
-
         if (prevProps.listOfFlights && prevProps.listOfFlights[0] && prevProps.listOfFlights[0].FlightID && this.props.listOfFlights && this.props.listOfFlights[0] && this.props.listOfFlights[0].FlightID && prevProps.listOfFlights[0].FlightID === this.props.listOfFlights[0].FlightID) return;
         var flight = this.props.listOfFlights[0];
         this.getFare("E", flight.SourceCode, flight.DestinationCode)
         this.getFare("B", flight.SourceCode, flight.DestinationCode)
         this.getFare("F", flight.SourceCode, flight.DestinationCode)
+        flight1.FlightID = undefined;
     }
     render() {
         return (
@@ -77,7 +81,7 @@ class SearchTable extends React.Component<flights, Prices>{
                         {this.createRows()}
                     </tbody>
                 </Table>
-                <ReservePage />
+                <ReservePage flight={flight1} Class={Class1} price={displayPrice} />
             </div>
         )
     }
@@ -88,11 +92,11 @@ class SearchTable extends React.Component<flights, Prices>{
                     <td>AA{flight.FlightID}</td>
                     <td>{flight.SourceCode}</td>
                     <td>{flight.DestinationCode}</td>
-                    <td>{flight.departure}</td>
-                    <td>{flight.arrival}</td>
+                    <td>{new Date(flight?.departure!).toString().substr(0,21)}</td>
+                    <td>{new Date(flight?.arrival!).toString().substr(0,21)}</td>
                     <td>
-                        <OverlayTrigger trigger="click" placement="bottom" overlay={this.popover(flight)}>
-                            <Button variant="light" id={Number(flight.FlightID).toString()} >Reserve this Flight</Button>
+                        <OverlayTrigger trigger="focus" placement="bottom" overlay={this.popover(flight)}>
+                            <Button variant="primary" id={Number(flight.FlightID).toString()} >Reserve this Flight</Button>
                         </OverlayTrigger>
                     </td>
                 </tr>
@@ -106,9 +110,9 @@ class SearchTable extends React.Component<flights, Prices>{
                 <Popover.Title as="h3">Let's goooo</Popover.Title>
                 <Popover.Content>
                     <ButtonGroup>
-                        <Button onClick = {e => this.goReserve(flight, "E")} variant="light">Economy ${this.state.Eprice}</Button>
-                        <Button onClick = {e => this.goReserve(flight, "B")} variant="secondary">Business ${this.state.Bprice}</Button>
-                        <Button onClick = {e => this.goReserve(flight, "F")} variant="dark">First ${this.state.Fprice}</Button>
+                        <Button onClick={e => this.goReserve(flight, "E")} variant="success">Economy ${this.state.Eprice}</Button>
+                        <Button onClick={e => this.goReserve(flight, "B")} variant="warning">Business ${this.state.Bprice}</Button>
+                        <Button onClick={e => this.goReserve(flight, "F")} variant="danger">First ${this.state.Fprice}</Button>
                     </ButtonGroup>
                 </Popover.Content>
             </Popover>
@@ -154,9 +158,19 @@ class SearchTable extends React.Component<flights, Prices>{
         }
     }
 
-    private goReserve(flight: Flight, Class: string){
+    private goReserve(flight: Flight, Class: string) {
         //some code to go to reserve page
-
+        flight1 = flight;
+        Class1 = Class;
+        switch (Class) {
+            case "E": displayPrice = this.state.Eprice;
+                break;
+            case "B": displayPrice = this.state.Bprice;
+                break;
+            case "F": displayPrice = this.state.Fprice;
+                break;
+        }
+        this.setState({});
     }
 
 }
