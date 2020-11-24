@@ -62,9 +62,10 @@ class SearchPage extends React.Component<{}, SearchState>{
                                 </Form.Row>
                             </div>
                         </Form.Group>
-                        <Button variant = "light" type="submit" className="ButtonSpacing"> Search </Button>
+                        <Button variant = "primary" type="submit" className="ButtonSpacing"> Search </Button>
                     </Form>
                 </div>
+                <br></br>
                 <div>
                     <SearchTable listOfFlights={this.state.flights} />
                 </div>
