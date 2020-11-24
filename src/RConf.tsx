@@ -8,7 +8,7 @@ interface Prop {
     lname: string
     Class: string
 }
-interface State {
+export interface State {
     FlightID: number
     Class: string
     fname: string
